@@ -11,16 +11,15 @@ const displayController = (() => {
 // Store the gameboard as an array inside of gameboard object as a module
 
 const gameBoard = (() => {
-    const gameArr = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']];
+    const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
     const containerHTML = document.querySelector('.gameboard');
     const render = () => {
         gameArr.forEach((row) => {
             const rowHTML = document.createElement('div');
             rowHTML.classList.add('row-game');
             row.forEach((cell, i) => {
-                const cellHTML = document.createElement('span');
+                const cellHTML = document.createElement('div');
                 cellHTML.classList.add('cell-game');
-                cellHTML.innerHTML = cell;
                 cellHTML.addEventListener('click', displayController.changeValue.bind(cellHTML, row, i));
                 rowHTML.appendChild(cellHTML);
             });
