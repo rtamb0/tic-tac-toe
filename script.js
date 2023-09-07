@@ -1,11 +1,26 @@
 // Create a module that controls the game (click event, etc)
 
 const displayController = (() => {
-    const changeValue = function(arr, index) {
-        this.innerHTML = 'X';
-        arr[index] = 'X';
+    const messageDOM = {
+        messageHTML: document.createElement('p'),
+        messageContainer: document.querySelector('.game-message'),
     };
-    return {changeValue};
+    const appendMessage = function(obj) {
+        obj.messageContainer.appendChild(obj.messageHTML);
+    }(messageDOM);
+    const marker = function(arr, index) {
+        if (arr[index] !== '') {
+            errorMessage();
+        } else {
+            messageDOM.messageHTML.innerHTML = '';
+            this.innerHTML = 'X';
+            arr[index] = 'X';
+        };
+    };
+    const errorMessage = function() {
+        messageDOM.messageHTML.innerHTML = "That spot is already taken. Please pick another spot.";
+    };
+    return {marker};
 })();
 
 // Store the gameboard as an array inside of gameboard object as a module
@@ -20,7 +35,7 @@ const gameBoard = (() => {
             row.forEach((cell, i) => {
                 const cellHTML = document.createElement('div');
                 cellHTML.classList.add('cell-game');
-                cellHTML.addEventListener('click', displayController.changeValue.bind(cellHTML, row, i));
+                cellHTML.addEventListener('click', displayController.marker.bind(cellHTML, row, i));
                 rowHTML.appendChild(cellHTML);
             });
             containerHTML.appendChild(rowHTML);
