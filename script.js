@@ -14,10 +14,10 @@ const displayController = (() => {
         messageHTML: document.createElement('p'),
         messageContainer: document.querySelector('.game-message'),
     };
-    const appendMessage = function(obj) {
+    const appendMessage = ((obj) => {
         obj.messageContainer.appendChild(obj.messageHTML);
-    }(messageDOM);
-    const errorMessage = function() {
+    })(messageDOM);
+    const errorMessage = () => {
         messageDOM.messageHTML.innerHTML = "That spot is already taken. Please pick another spot.";
     };
     return {marker};
@@ -29,7 +29,7 @@ const gameBoard = (() => {
     const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
     const getGameArr = () => gameArr;
     const containerHTML = document.querySelector('.gameboard');
-    const render = () => {
+    const render = (() => {
         gameArr.forEach((row) => {
             const rowHTML = document.createElement('div');
             rowHTML.classList.add('row-game');
@@ -41,11 +41,9 @@ const gameBoard = (() => {
             });
             containerHTML.appendChild(rowHTML);
         });
-    };
-    return {render, getGameArr};
+    })();
+    return {getGameArr};
 })();
-
-gameBoard.render()
 
 // Create a factory function that creates the player
 
