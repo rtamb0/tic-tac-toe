@@ -5,21 +5,31 @@ const displayController = (() => {
         if (arr[index] !== '') {
             errorMessage();
         } else {
-            messageDOM.messageHTML.innerHTML = '';
-            this.innerHTML = 'X';
-            arr[index] = 'X';
+            messageDOM.errorMessage.innerHTML = '';
+            this.innerHTML = 'O';
+            arr[index] = 'O';
         };
     };
     const messageDOM = {
-        messageHTML: document.createElement('p'),
+        message: document.createElement('p'),
+        errorMessage: document.createElement('p'),
         messageContainer: document.querySelector('.game-message'),
     };
     const appendMessage = ((obj) => {
-        obj.messageContainer.appendChild(obj.messageHTML);
+        obj.messageContainer.appendChild(obj.message);
+        obj.messageContainer.appendChild(obj.errorMessage);
     })(messageDOM);
-    const errorMessage = () => {
-        messageDOM.messageHTML.innerHTML = "That spot is already taken. Please pick another spot.";
+    const message = (type) => {
+        switch (type) {
+            case 'player1':
+                messageDOM.message.innerHTML = "It's now Player 1's turn!"
+                break;
+            case 'player2':
+                messageDOM.message.innerHTML = "It's now Player 2's turn!"
+                break;
+        };
     };
+    const errorMessage = () => messageDOM.errorMessage.innerHTML = "That spot is already taken. Please pick another spot.";
     return {marker};
 })();
 
