@@ -13,6 +13,7 @@ const displayController = (() => {
                 this.innerHTML = 'X';
                 arr[index] = 'X';
             };
+            playerList.switchPlayer();
         };
     };
     const messageDOM = {
@@ -45,7 +46,6 @@ const gameBoard = (() => {
                 cellHTML.addEventListener('click', () => {
                     const player = playerList.currentPlayer;
                     displayController.marker.call(cellHTML, row, i, player);
-                    playerList.switchPlayer();
                 });
                 rowHTML.appendChild(cellHTML);
             });
