@@ -1,13 +1,18 @@
 // Create a module that controls the game (click event, etc)
 
 const displayController = (() => {
-    const marker = function(arr, index) {
+    const marker = function(arr, index, player) {
         if (arr[index] !== '') {
             errorMessage();
         } else {
             messageDOM.errorMessage.innerHTML = '';
-            this.innerHTML = 'O';
-            arr[index] = 'O';
+            if (player.getSymbol() === 'O') {
+                this.innerHTML = 'O';
+                arr[index] = 'O';
+            } else if (player.getSymbol() === 'X') {
+                this.innerHTML = 'X';
+                arr[index] = 'X';
+            };
         };
     };
     const messageDOM = {
@@ -19,16 +24,7 @@ const displayController = (() => {
         obj.messageContainer.appendChild(obj.message);
         obj.messageContainer.appendChild(obj.errorMessage);
     })(messageDOM);
-    const message = (type) => {
-        switch (type) {
-            case 'player1':
-                messageDOM.message.innerHTML = "It's now Player 1's turn!"
-                break;
-            case 'player2':
-                messageDOM.message.innerHTML = "It's now Player 2's turn!"
-                break;
-        };
-    };
+    const message = (name) => messageDOM.message.innerHTML = `It's now ${name}'s turn!`
     const errorMessage = () => messageDOM.errorMessage.innerHTML = "That spot is already taken. Please pick another spot.";
     return {marker};
 })();
@@ -46,7 +42,11 @@ const gameBoard = (() => {
             row.forEach((cell, i) => {
                 const cellHTML = document.createElement('div');
                 cellHTML.classList.add('cell-game');
-                cellHTML.addEventListener('click', displayController.marker.bind(cellHTML, row, i));
+                cellHTML.addEventListener('click', () => {
+                    const player = playerList.currentPlayer;
+                    displayController.marker.call(cellHTML, row, i, player);
+                    playerList.switchPlayer();
+                });
                 rowHTML.appendChild(cellHTML);
             });
             containerHTML.appendChild(rowHTML);
@@ -57,7 +57,30 @@ const gameBoard = (() => {
 
 // Create a factory function that creates the player
 
-const player = (name) => {
+const player = (name, symbol) => {
     const getName = () => name;
-    return {getName};
+    const getSymbol = () => symbol; 
+    return {getName, getSymbol};
 };
+
+const playerList = (() => {
+    const player1 = player('test1', 'O');
+    const player2 = player('test2', 'X');
+    const list = [player1, player2];
+    let currentPlayer = (() => {
+        const chance = Math.floor(Math.random() * 2) + 1;
+        if (chance === 1) {
+            return list[0];
+        } else {
+            return list[1];
+        };
+    })();
+    const switchPlayer = function() {
+        if (this.currentPlayer === list[0]) {
+            this.currentPlayer = list[1];
+        } else {
+            this.currentPlayer = list[0];
+        };
+    };
+    return {switchPlayer, currentPlayer};
+})();
