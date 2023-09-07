@@ -1,13 +1,6 @@
 // Create a module that controls the game (click event, etc)
 
 const displayController = (() => {
-    const messageDOM = {
-        messageHTML: document.createElement('p'),
-        messageContainer: document.querySelector('.game-message'),
-    };
-    const appendMessage = function(obj) {
-        obj.messageContainer.appendChild(obj.messageHTML);
-    }(messageDOM);
     const marker = function(arr, index) {
         if (arr[index] !== '') {
             errorMessage();
@@ -17,6 +10,13 @@ const displayController = (() => {
             arr[index] = 'X';
         };
     };
+    const messageDOM = {
+        messageHTML: document.createElement('p'),
+        messageContainer: document.querySelector('.game-message'),
+    };
+    const appendMessage = function(obj) {
+        obj.messageContainer.appendChild(obj.messageHTML);
+    }(messageDOM);
     const errorMessage = function() {
         messageDOM.messageHTML.innerHTML = "That spot is already taken. Please pick another spot.";
     };
@@ -27,6 +27,7 @@ const displayController = (() => {
 
 const gameBoard = (() => {
     const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
+    const getGameArr = () => gameArr;
     const containerHTML = document.querySelector('.gameboard');
     const render = () => {
         gameArr.forEach((row) => {
@@ -41,7 +42,7 @@ const gameBoard = (() => {
             containerHTML.appendChild(rowHTML);
         });
     };
-    return {render, gameArr};
+    return {render, getGameArr};
 })();
 
 gameBoard.render()
