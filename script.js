@@ -44,7 +44,7 @@ const gameBoard = (() => {
                 const cellHTML = document.createElement('div');
                 cellHTML.classList.add('cell-game');
                 cellHTML.addEventListener('click', () => {
-                    const player = playerList.currentPlayer;
+                    const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
                 });
                 rowHTML.appendChild(cellHTML);
@@ -55,13 +55,15 @@ const gameBoard = (() => {
     return {getGameArr};
 })();
 
-// Create a factory function that creates the player
+// Factory function that creates the player
 
 const player = (name, symbol) => {
     const getName = () => name;
     const getSymbol = () => symbol; 
     return {getName, getSymbol};
 };
+
+// A module that puts the players in an array and iterates each of them in each turn
 
 const playerList = (() => {
     const player1 = player('test1', 'O');
@@ -78,13 +80,14 @@ const playerList = (() => {
         displayController.message(player.getName());
         return player;
     })();
+    const getCurrentPlayer = () => currentPlayer;
     const switchPlayer = function() {
-        if (this.currentPlayer === list[0]) {
-            this.currentPlayer = list[1];
+        if (currentPlayer === list[0]) {
+            currentPlayer = list[1];
         } else {
-            this.currentPlayer = list[0];
+            currentPlayer = list[0];
         };
-        displayController.message(this.currentPlayer.getName());
+        displayController.message(currentPlayer.getName());
     };
-    return {switchPlayer, currentPlayer};
+    return {switchPlayer, getCurrentPlayer};
 })();
