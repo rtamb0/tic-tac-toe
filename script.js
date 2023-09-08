@@ -27,7 +27,7 @@ const displayController = (() => {
     })(messageDOM);
     const message = (name) => messageDOM.message.innerHTML = `It's now ${name}'s turn!`
     const errorMessage = () => messageDOM.errorMessage.innerHTML = "That spot is already taken. Please pick another spot.";
-    return {marker};
+    return {marker, message};
 })();
 
 // Store the gameboard as an array inside of gameboard object as a module
@@ -68,12 +68,15 @@ const playerList = (() => {
     const player2 = player('test2', 'X');
     const list = [player1, player2];
     let currentPlayer = (() => {
+        let player;
         const chance = Math.floor(Math.random() * 2) + 1;
         if (chance === 1) {
-            return list[0];
+            player = list[0];
         } else {
-            return list[1];
+            player = list[1];
         };
+        displayController.message(player.getName());
+        return player;
     })();
     const switchPlayer = function() {
         if (this.currentPlayer === list[0]) {
@@ -81,6 +84,7 @@ const playerList = (() => {
         } else {
             this.currentPlayer = list[0];
         };
+        displayController.message(this.currentPlayer.getName());
     };
     return {switchPlayer, currentPlayer};
 })();
