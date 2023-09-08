@@ -33,23 +33,53 @@ const displayController = (() => {
 // Store the gameboard as an array inside of gameboard object as a module
 
 const gameBoard = (() => {
-    const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
+    const gameArr = ['', '', '', '', '', '', '', '', ''];
     const getGameArr = () => gameArr;
-    const containerHTML = document.querySelector('.gameboard');
+    // const logic = () => {
+    //     const value = 'O';
+    //     const filter = gameArr.filter((row) => {
+    //         switch (value) {
+    //             case row[0]:
+    //                 return true;
+    //             case row[1]:
+    //                 return true;
+    //             case row[2]:
+    //                 return true;
+    //         };
+    //     });
+    //     if (filter.length === 3) {
+    //         console.log('hi');
+    //     };
+    // };
+    const domBoard = {
+        containerHTML: document.querySelector('.gameboard'),
+        rowHTML: {
+            row1: document.createElement('div'),
+            row2: document.createElement('div'),
+            row3: document.createElement('div'),
+        },
+    };
+    const rowClassAmend = (function(obj) {
+        for (const row in obj.rowHTML) {
+            obj.rowHTML[row].classList.add('row-game');
+            obj.containerHTML.appendChild(obj.rowHTML[row]);
+        };
+    })(domBoard);
     const render = (() => {
-        gameArr.forEach((row) => {
-            const rowHTML = document.createElement('div');
-            rowHTML.classList.add('row-game');
-            row.forEach((cell, i) => {
-                const cellHTML = document.createElement('div');
-                cellHTML.classList.add('cell-game');
-                cellHTML.addEventListener('click', () => {
-                    const player = playerList.getCurrentPlayer();
-                    displayController.marker.call(cellHTML, row, i, player);
-                });
-                rowHTML.appendChild(cellHTML);
+        gameArr.forEach((cell, i) => {
+            const cellHTML = document.createElement('div');
+            cellHTML.classList.add('cell-game');
+            cellHTML.addEventListener('click', () => {
+                const player = playerList.getCurrentPlayer();
+                displayController.marker.call(cellHTML, gameArr, i, player);
             });
-            containerHTML.appendChild(rowHTML);
+            if (i < 3) {
+                domBoard.rowHTML.row1.appendChild(cellHTML);
+            } else if (i < 6) {
+                domBoard.rowHTML.row2.appendChild(cellHTML);
+            } else if (i < 9) {
+                domBoard.rowHTML.row3.appendChild(cellHTML);
+            };
         });
     })();
     return {getGameArr};
