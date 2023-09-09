@@ -25,7 +25,15 @@ const displayController = (() => {
         obj.messageContainer.appendChild(obj.message);
         obj.messageContainer.appendChild(obj.errorMessage);
     })(messageDOM);
-    const message = (name) => messageDOM.message.innerHTML = `It's now ${name}'s turn!`
+    const message = (name, status) => {
+        if (status === 'win') {
+            messageDOM.message.innerHTML = `${name} is the winner!`;
+        } else if (status === 'tie') {
+            messageDOM.message.innerHTML = `It's a tie!`;
+        } else {
+            messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
+        };
+    };
     const errorMessage = () => messageDOM.errorMessage.innerHTML = "That spot is already taken. Please pick another spot.";
     return {marker, message};
 })();
@@ -35,24 +43,42 @@ const displayController = (() => {
 const gameBoard = (() => {
     const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
     const getGameArr = () => gameArr;
-    const checkWinner = (symbol) => {
-        const filter = gameArr.filter((row, i, arr) => {
+    const checkWinner = (player) => {
+        const winFilter = gameArr.filter((row, i, arr) => {
             // Column check logic
-            if (arr[0][i] === symbol) {
-                if (arr[1][i] === symbol && arr[2][i] === symbol) return true;
+            if (arr[0][i] === player.getSymbol()) {
+                if (arr[1][i] === player.getSymbol() && arr[2][i] === player.getSymbol()) return true;
             };
             // Row check logic
-            if (row[0] === symbol) {
-                if (row[1] === symbol) {
-                    if (row[2] === symbol) return true;
+            if (row[0] === player.getSymbol()) {
+                if (row[1] === player.getSymbol()) {
+                    if (row[2] === player.getSymbol()) return true;
                 };
             };
             // Diagonal check logic
-            if ((!(i === 1) && arr[0][i] === symbol) && arr[1][1] === symbol) {
-                if (arr[2][0] === symbol || arr[2][2] === symbol) return true;
+            if (arr[1][1] === player.getSymbol()) {
+                if (arr[0][0] === player.getSymbol()) {
+                    if (arr[2][2] === player.getSymbol()) return true;
+                };
+                if (arr[0][2] === player.getSymbol()) {
+                    if (arr[2][0] === player.getSymbol()) return true;
+                };
             };
         });
-        console.log(filter)
+        const filledBoard = (() => {
+            let filled = 0;
+            gameArr.forEach((row) => {
+                const check = row.every((cell) => cell === 'O' || cell === 'X');
+                if (check === true) filled += 1;
+            });
+            return filled;
+        })();
+        if (winFilter.length > 0) {
+            displayController.message(player.getName(), 'win');
+        };
+        if (winFilter.length === 0 && filledBoard === 3) {
+            displayController.message(undefined, 'tie');
+        };
     };
     const containerHTML = document.querySelector('.gameboard');
     const render = (() => {
@@ -65,7 +91,7 @@ const gameBoard = (() => {
                 cellHTML.addEventListener('click', () => {
                     const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
-                    checkWinner(player.getSymbol());
+                    checkWinner(player);
                 });
                 rowHTML.appendChild(cellHTML);
             });
