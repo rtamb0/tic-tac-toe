@@ -33,54 +33,45 @@ const displayController = (() => {
 // Store the gameboard as an array inside of gameboard object as a module
 
 const gameBoard = (() => {
-    const gameArr = ['', '', '', '', '', '', '', '', ''];
+    const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
     const getGameArr = () => gameArr;
-    // const logic = () => {
-    //     const value = 'O';
-    //     const filter = gameArr.filter((row) => {
-    //         switch (value) {
-    //             case row[0]:
-    //                 return true;
-    //             case row[1]:
-    //                 return true;
-    //             case row[2]:
-    //                 return true;
-    //         };
-    //     });
-    //     if (filter.length === 3) {
-    //         console.log('hi');
-    //     };
-    // };
-    const domBoard = {
-        containerHTML: document.querySelector('.gameboard'),
-        rowHTML: {
-            row1: document.createElement('div'),
-            row2: document.createElement('div'),
-            row3: document.createElement('div'),
-        },
-    };
-    const rowClassAmend = (function(obj) {
-        for (const row in obj.rowHTML) {
-            obj.rowHTML[row].classList.add('row-game');
-            obj.containerHTML.appendChild(obj.rowHTML[row]);
-        };
-    })(domBoard);
-    const render = (() => {
-        gameArr.forEach((cell, i) => {
-            const cellHTML = document.createElement('div');
-            cellHTML.classList.add('cell-game');
-            cellHTML.addEventListener('click', () => {
-                const player = playerList.getCurrentPlayer();
-                displayController.marker.call(cellHTML, gameArr, i, player);
-            });
-            if (i < 3) {
-                domBoard.rowHTML.row1.appendChild(cellHTML);
-            } else if (i < 6) {
-                domBoard.rowHTML.row2.appendChild(cellHTML);
-            } else if (i < 9) {
-                domBoard.rowHTML.row3.appendChild(cellHTML);
+    const checkWinner = () => {
+        const value = 'O';
+        const filter = gameArr.filter((row, i, arr) => {
+            // Column check logic
+            if (arr[0][i] === value) {
+                if (arr[1][i] === value && arr[2][i] === value) return true;
+            };
+            // Row check logic
+            if (row[0] === value) {
+                if (row[1] === value) {
+                    if (row[2] === value) return true;
+                };
+            };
+            // Diagonal check logic
+            if ((!(i === 1) && arr[0][i] === value) && arr[1][1] === value) {
+                if (arr[2][0] === value || arr[2][2] === value) return true;
             };
         });
+        console.log(filter)
+    };
+    const containerHTML = document.querySelector('.gameboard');
+    const render = (() => {
+        gameArr.forEach((row) => {
+            const rowHTML = document.createElement('div');
+            rowHTML.classList.add('row-game');
+            row.forEach((cell, i) => {
+                const cellHTML = document.createElement('div');
+                cellHTML.classList.add('cell-game');
+                cellHTML.addEventListener('click', () => {
+                    const player = playerList.getCurrentPlayer();
+                    displayController.marker.call(cellHTML, row, i, player);
+                    checkWinner();
+                });
+                rowHTML.appendChild(cellHTML);
+            });
+            containerHTML.appendChild(rowHTML);
+        })
     })();
     return {getGameArr};
 })();
