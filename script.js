@@ -7,10 +7,10 @@ const displayController = (() => {
         } else {
             messageDOM.errorMessage.innerHTML = '';
             if (player.getSymbol() === 'O') {
-                this.innerHTML = 'O';
+                this.innerHTML = '<img src="assets/circle.svg">';
                 arr[index] = 'O';
             } else if (player.getSymbol() === 'X') {
-                this.innerHTML = 'X';
+                this.innerHTML = '<img src="assets/cross.svg">';
                 arr[index] = 'X';
             };
             playerList.switchPlayer();
