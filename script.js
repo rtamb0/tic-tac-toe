@@ -65,7 +65,7 @@ const gameBoard = (() => {
                 };
             };
         });
-        const filledBoard = (() => {
+        const filledRow = (() => {
             let filled = 0;
             gameArr.forEach((row) => {
                 const check = row.every((cell) => cell === 'O' || cell === 'X');
@@ -76,7 +76,7 @@ const gameBoard = (() => {
         if (winFilter.length > 0) {
             displayController.message(player.getName(), 'win');
         };
-        if (winFilter.length === 0 && filledBoard === 3) {
+        if (winFilter.length === 0 && filledRow === 3) {
             displayController.message(undefined, 'tie');
         };
     };
