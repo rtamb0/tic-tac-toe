@@ -35,22 +35,21 @@ const displayController = (() => {
 const gameBoard = (() => {
     const gameArr = [['', '', ''], ['', '', ''], ['', '', '']];
     const getGameArr = () => gameArr;
-    const checkWinner = () => {
-        const value = 'O';
+    const checkWinner = (symbol) => {
         const filter = gameArr.filter((row, i, arr) => {
             // Column check logic
-            if (arr[0][i] === value) {
-                if (arr[1][i] === value && arr[2][i] === value) return true;
+            if (arr[0][i] === symbol) {
+                if (arr[1][i] === symbol && arr[2][i] === symbol) return true;
             };
             // Row check logic
-            if (row[0] === value) {
-                if (row[1] === value) {
-                    if (row[2] === value) return true;
+            if (row[0] === symbol) {
+                if (row[1] === symbol) {
+                    if (row[2] === symbol) return true;
                 };
             };
             // Diagonal check logic
-            if ((!(i === 1) && arr[0][i] === value) && arr[1][1] === value) {
-                if (arr[2][0] === value || arr[2][2] === value) return true;
+            if ((!(i === 1) && arr[0][i] === symbol) && arr[1][1] === symbol) {
+                if (arr[2][0] === symbol || arr[2][2] === symbol) return true;
             };
         });
         console.log(filter)
@@ -66,7 +65,7 @@ const gameBoard = (() => {
                 cellHTML.addEventListener('click', () => {
                     const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
-                    checkWinner();
+                    checkWinner(player.getSymbol());
                 });
                 rowHTML.appendChild(cellHTML);
             });
