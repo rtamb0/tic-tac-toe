@@ -26,12 +26,18 @@ const displayController = (() => {
         obj.messageContainer.appendChild(obj.errorMessage);
     })(messageDOM);
     const message = (name, status) => {
-        if (status === 'win') {
-            messageDOM.message.innerHTML = `${name} is the winner!`;
-        } else if (status === 'tie') {
-            messageDOM.message.innerHTML = `It's a tie!`;
-        } else {
-            messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
+        switch (status) {
+            case 'win':
+                messageDOM.message.innerHTML = `${name} is the winner!`;
+                break;
+            case 'tie':
+                messageDOM.message.innerHTML = `It's a tie!`;
+                break;
+            case 'restart':
+                messageDOM.message.innerHTML = ``;
+                break;
+            default:
+                messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
         };
     };
     const errorMessage = () => messageDOM.errorMessage.innerHTML = "That spot is already taken. Please pick another spot.";
@@ -98,9 +104,20 @@ const gameBoard = (() => {
                 rowHTML.appendChild(cellHTML);
             });
             containerHTML.appendChild(rowHTML);
-        })
-    })();
-    return {getGameArr};
+        });
+    });
+    render();
+    const restartGame = () => {
+        gameArr.forEach((row) => {
+            row.forEach((cell, i, arr) => arr[i] = '');
+        });
+        while (containerHTML.firstChild) {
+            containerHTML.removeChild(containerHTML.lastChild);
+        };
+        displayController.message(undefined, 'restart')
+        render();
+    };
+    return {getGameArr, restartGame};
 })();
 
 // Factory function that creates the player
