@@ -82,10 +82,12 @@ const gameBoard = (() => {
         // Current player wins
         if (winFilter.length > 0) {
             displayController.message(player.getName(), 'win');
+            return true;
         };
         // The game is tied
         if (winFilter.length === 0 && filledRow === 3) {
             displayController.message(undefined, 'tie');
+            return true;
         };
     };
     const containerHTML = document.querySelector('.gameboard');
@@ -96,10 +98,10 @@ const gameBoard = (() => {
             row.forEach((cell, i) => {
                 const cellHTML = document.createElement('div');
                 cellHTML.classList.add('cell-game');
-                cellHTML.addEventListener('click', () => {
+                cellHTML.addEventListener('click', function() {
                     const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
-                    checkWinner(player);
+                    checkEndGame(player);
                 });
                 rowHTML.appendChild(cellHTML);
             });
@@ -107,6 +109,17 @@ const gameBoard = (() => {
         });
     });
     render();
+    const checkEndGame = function(player) {
+        const rowHTMLs = document.querySelectorAll('.row-game');
+        if (checkWinner(player) === true) {
+            rowHTMLs.forEach((rowHTML) => {
+                for (const cellHTML of rowHTML.children) {
+                    const noEvent = cellHTML.cloneNode(true);
+                    rowHTML.replaceChild(noEvent, cellHTML);
+                };
+            });
+        };
+    };
     const restartGame = () => {
         gameArr.forEach((row) => {
             row.forEach((cell, i, arr) => arr[i] = '');
@@ -114,7 +127,7 @@ const gameBoard = (() => {
         while (containerHTML.firstChild) {
             containerHTML.removeChild(containerHTML.lastChild);
         };
-        displayController.message(undefined, 'restart')
+        displayController.message(undefined, 'restart');
         render();
     };
     return {getGameArr, restartGame};
