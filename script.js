@@ -73,9 +73,11 @@ const gameBoard = (() => {
             });
             return filled;
         })();
+        // Current player wins
         if (winFilter.length > 0) {
             displayController.message(player.getName(), 'win');
         };
+        // The game is tied
         if (winFilter.length === 0 && filledRow === 3) {
             displayController.message(undefined, 'tie');
         };
