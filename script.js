@@ -120,17 +120,20 @@ const gameBoard = (() => {
             });
         };
     };
-    const restartGame = () => {
-        gameArr.forEach((row) => {
-            row.forEach((cell, i, arr) => arr[i] = '');
+    const restartGame = (() => {
+        const restartButton = document.querySelector('#restart');
+        restartButton.addEventListener('click', () => {
+            gameArr.forEach((row) => {
+                row.forEach((cell, i, arr) => arr[i] = '');
+            });
+            while (containerHTML.firstChild) {
+                containerHTML.removeChild(containerHTML.lastChild);
+            };
+            displayController.message(undefined, 'restart');
+            render();
         });
-        while (containerHTML.firstChild) {
-            containerHTML.removeChild(containerHTML.lastChild);
-        };
-        displayController.message(undefined, 'restart');
-        render();
-    };
-    return {getGameArr, restartGame};
+    })();
+    return {getGameArr};
 })();
 
 // Factory function that creates the player
