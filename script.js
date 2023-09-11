@@ -167,6 +167,7 @@ const playerList = (() => {
                 prompt.prompt.close();
             } else {
                 list[0] = player(prompt.input.value, 'O');
+                prompt.input.value = "";
                 prompt.promptHeader.innerHTML = "Enter Player 2's Name";
                 prompt.headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
                 attempt++;
