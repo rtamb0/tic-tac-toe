@@ -89,7 +89,8 @@ const gameBoard = (() => {
             return true;
         };
     };
-    const containerHTML = document.querySelector('.gameboard');
+    const gameboardHTML = document.querySelector('.gameboard');
+    const containerHTML = document.querySelector('.gameboard-container');
     const render = (() => {
         gameArr.forEach((row) => {
             const rowHTML = document.createElement('div');
@@ -105,7 +106,7 @@ const gameBoard = (() => {
                 });
                 rowHTML.appendChild(cellHTML);
             });
-            containerHTML.appendChild(rowHTML);
+            gameboardHTML.appendChild(rowHTML);
         });
     });
     const checkEndGame = function(player) {
@@ -117,21 +118,25 @@ const gameBoard = (() => {
                     rowHTML.replaceChild(noEvent, cellHTML);
                 };
             });
+            restartGame();
         };
     };
     const restartGame = (() => {
-        const restartButton = document.querySelector('#restart');
+        const restartButton = document.createElement('button');
+        restartButton.innerHTML = "Restart";
+        containerHTML.appendChild(restartButton);
         restartButton.addEventListener('click', () => {
             gameArr.forEach((row) => {
                 row.forEach((cell, i, arr) => arr[i] = '');
             });
-            while (containerHTML.firstChild) {
-                containerHTML.removeChild(containerHTML.lastChild);
+            while (gameboardHTML.firstChild) {
+                gameboardHTML.removeChild(gameboardHTML.lastChild);
             };
             displayController.message(undefined, 'restart');
             render();
+            restartButton.remove();
         });
-    })();
+    });
     return {getGameArr, render};
 })();
 
