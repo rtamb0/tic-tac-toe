@@ -35,3 +35,10 @@ header h1 {
 .game-message {
     text-align: center;
 }
+
+.dialog-header img {
+    position: relative;
+    width: 2.5rem;
+    top: 12px;
+    right: 2px;
+}
