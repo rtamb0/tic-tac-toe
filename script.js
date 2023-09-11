@@ -108,7 +108,6 @@ const gameBoard = (() => {
             containerHTML.appendChild(rowHTML);
         });
     });
-    render();
     const checkEndGame = function(player) {
         const rowHTMLs = document.querySelectorAll('.row-game');
         if (checkWinner(player) === true) {
@@ -133,7 +132,7 @@ const gameBoard = (() => {
             render();
         });
     })();
-    return {getGameArr};
+    return {getGameArr, render};
 })();
 
 // Factory function that creates the player
@@ -147,20 +146,41 @@ const player = (name, symbol) => {
 // A module that puts the players in an array and iterates each of them in each turn
 
 const playerList = (() => {
-    const player1 = player('test1', 'O');
-    const player2 = player('test2', 'X');
-    const list = [player1, player2];
-    let currentPlayer = (() => {
-        let player;
+    const list = [];
+    const inputPlayer = (function() {
+        const prompt = document.querySelector('#start-prompt');
+        const promptHeader = document.querySelector('.dialog-header h2');
+        const headerSymbol = document.querySelector('.dialog-header p');
+        const input = document.querySelector('dialog input');
+        const submitButton = document.querySelector('#submit');
+        let attempt = 0;
+        prompt.showModal();
+        submitButton.addEventListener('click', () => {
+            if (!input.checkValidity()) return;
+            if (attempt === 1) {
+                list[1] = player(input.value, 'X');
+                randomisePlayer();
+                gameBoard.render();
+                prompt.close();
+                console.log(list[0].getName())
+            } else {
+                list[0] = player(input.value, 'O');
+                promptHeader.innerHTML = "Enter Player 2's Name";
+                headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
+                attempt++;
+            };
+        });
+    })();
+    let currentPlayer;
+    let randomisePlayer = () => {
         const chance = Math.floor(Math.random() * 2) + 1;
         if (chance === 1) {
-            player = list[0];
+            currentPlayer = list[0];
         } else {
-            player = list[1];
+            currentPlayer = list[1];
         };
-        displayController.message(player.getName());
-        return player;
-    })();
+        displayController.message(currentPlayer.getName());
+    };
     const getCurrentPlayer = () => currentPlayer;
     const switchPlayer = function() {
         if (currentPlayer === list[0]) {
