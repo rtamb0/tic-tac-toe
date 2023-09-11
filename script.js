@@ -156,13 +156,13 @@ const playerList = (() => {
         let attempt = 0;
         prompt.showModal();
         submitButton.addEventListener('click', () => {
+            input.reportValidity();
             if (!input.checkValidity()) return;
             if (attempt === 1) {
                 list[1] = player(input.value, 'X');
                 randomisePlayer();
                 gameBoard.render();
                 prompt.close();
-                console.log(list[0].getName())
             } else {
                 list[0] = player(input.value, 'O');
                 promptHeader.innerHTML = "Enter Player 2's Name";
