@@ -157,7 +157,7 @@ const playerList = (() => {
     const inputPlayer = (function() {
         let attempt = 0;
         prompt.prompt.showModal();
-        prompt.submitButton.addEventListener('click', () => {
+        const submit = () => {
             prompt.input.reportValidity();
             if (!prompt.input.checkValidity()) return;
             if (attempt === 1) {
@@ -171,7 +171,10 @@ const playerList = (() => {
                 prompt.promptHeader.innerHTML = "Enter Player 2's Name";
                 prompt.headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
                 attempt++;
-            };
+            }};
+        prompt.submitButton.addEventListener('click', submit);
+        prompt.input.addEventListener('keypress', (event) => {
+            if (event.key === "Enter") submit();
         });
     })();
     let currentPlayer;
