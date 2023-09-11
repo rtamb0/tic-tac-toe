@@ -147,26 +147,28 @@ const player = (name, symbol) => {
 
 const playerList = (() => {
     const list = [];
+    const prompt = {
+        prompt: document.querySelector('#start-prompt'),
+        promptHeader: document.querySelector('.dialog-header h2'),
+        headerSymbol: document.querySelector('.dialog-header p'),
+        input: document.querySelector('dialog input'),
+        submitButton: document.querySelector('#submit'),
+    };
     const inputPlayer = (function() {
-        const prompt = document.querySelector('#start-prompt');
-        const promptHeader = document.querySelector('.dialog-header h2');
-        const headerSymbol = document.querySelector('.dialog-header p');
-        const input = document.querySelector('dialog input');
-        const submitButton = document.querySelector('#submit');
         let attempt = 0;
-        prompt.showModal();
-        submitButton.addEventListener('click', () => {
-            input.reportValidity();
-            if (!input.checkValidity()) return;
+        prompt.prompt.showModal();
+        prompt.submitButton.addEventListener('click', () => {
+            prompt.input.reportValidity();
+            if (!prompt.input.checkValidity()) return;
             if (attempt === 1) {
-                list[1] = player(input.value, 'X');
+                list[1] = player(prompt.input.value, 'X');
                 randomisePlayer();
                 gameBoard.render();
-                prompt.close();
+                prompt.prompt.close();
             } else {
-                list[0] = player(input.value, 'O');
-                promptHeader.innerHTML = "Enter Player 2's Name";
-                headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
+                list[0] = player(prompt.input.value, 'O');
+                prompt.promptHeader.innerHTML = "Enter Player 2's Name";
+                prompt.headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
                 attempt++;
             };
         });
