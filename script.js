@@ -32,9 +32,6 @@ const displayController = (() => {
             case 'tie':
                 messageDOM.message.innerHTML = `It's a tie!`;
                 break;
-            case 'restart':
-                messageDOM.message.innerHTML = ``;
-                break;
             default:
                 messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
         };
@@ -132,7 +129,7 @@ const gameBoard = (() => {
             while (gameboardHTML.firstChild) {
                 gameboardHTML.removeChild(gameboardHTML.lastChild);
             };
-            displayController.message(undefined, 'restart');
+            displayController.message(playerList.getCurrentPlayer().getName());
             render();
             restartButton.remove();
         });
