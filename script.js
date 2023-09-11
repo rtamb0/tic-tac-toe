@@ -13,7 +13,6 @@ const displayController = (() => {
                 this.innerHTML = '<img src="assets/cross.svg">';
                 arr[index] = 'X';
             };
-            playerList.switchPlayer();
         };
     };
     const messageDOM = {
@@ -101,6 +100,7 @@ const gameBoard = (() => {
                 cellHTML.addEventListener('click', function() {
                     const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
+                    playerList.switchPlayer();
                     checkEndGame(player);
                 });
                 rowHTML.appendChild(cellHTML);
