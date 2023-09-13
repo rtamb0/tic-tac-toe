@@ -155,10 +155,11 @@ const gameBoard = (() => {
             };
             displayController.message(playerList.getCurrentPlayer().getName());
             render();
+            checkCPU();
             restartButton.remove();
         });
     });
-    return {getGameArr, render};
+    return {getGameArr, render, checkCPU};
 })();
 
 // Factory function that creates the player
@@ -190,6 +191,7 @@ const playerList = (() => {
                 list[1] = player(prompt.input.value, 'X');
                 randomisePlayer();
                 gameBoard.render();
+                gameBoard.checkCPU();
                 prompt.prompt.close();
             } else {
                 list[0] = player(prompt.input.value, 'O');
@@ -211,7 +213,11 @@ const playerList = (() => {
         } else {
             currentPlayer = list[1];
         };
-        displayController.message(currentPlayer.getName());
+        if (currentPlayer.getName() === 'CPU') {
+            return;
+        } else {
+            displayController.message(currentPlayer.getName());
+        };
     };
     const getCurrentPlayer = () => currentPlayer;
     const switchPlayer = function() {
@@ -220,7 +226,11 @@ const playerList = (() => {
         } else {
             currentPlayer = list[0];
         };
-        displayController.message(currentPlayer.getName());
+        if (currentPlayer.getName() === 'CPU') {
+            return;
+        } else {
+            displayController.message(currentPlayer.getName());
+        };
     };
     return {switchPlayer, getCurrentPlayer};
 })();
