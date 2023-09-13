@@ -4,6 +4,7 @@ const displayController = (() => {
     const marker = function(arr, index, player) {
         if (arr[index] !== '') {
             errorMessage();
+            return false;
         } else {
             messageDOM.errorMessage.innerHTML = '';
             if (player.getSymbol() === 'O') {
@@ -13,6 +14,7 @@ const displayController = (() => {
                 this.innerHTML = '<img src="assets/cross.svg">';
                 arr[index] = 'X';
             };
+            playerList.switchPlayer();
         };
     };
     const messageDOM = {
@@ -100,25 +102,30 @@ const gameBoard = (() => {
                 cellHTML.addEventListener('click', function() {
                     const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
-                    playerList.switchPlayer();
-                    checkEndGame(player);
-                    checkCPU();
+                    if (checkEndGame(player) !== true) checkCPU();
                 });
                 rowHTML.appendChild(cellHTML);
             });
             gameboardHTML.appendChild(rowHTML);
         });
     });
+    const randomiser = () => {
+        const random = () => Math.floor(Math.random() * gameboardHTML.childElementCount + 1);
+        const rowHTML = gameboardHTML.querySelector(`.row-game:nth-child(${random()})`);
+        const row = gameArr[rowHTML.dataset.indexNumber];
+        const cellHTML = rowHTML.querySelector(`.cell-game:nth-child(${random()})`);
+        const cellIndex = cellHTML.dataset.indexNumber;
+        return {cellHTML, row, cellIndex}
+    };
     const checkCPU = function() {
         const player = playerList.getCurrentPlayer();
         if (player.getName() === "CPU") {
-            const random = () => Math.floor(Math.random() * gameboardHTML.childElementCount + 1);
-            const rowHTML = gameboardHTML.querySelector(`.row-game:nth-child(${random()})`);
-            const row = gameArr[rowHTML.dataset.indexNumber];
-            const cellHTML = rowHTML.querySelector(`.cell-game:nth-child(${random()})`);
-            const cellIndex = cellHTML.dataset.indexNumber;
-            displayController.marker.call(cellHTML, row, cellIndex, player);
-            playerList.switchPlayer();
+            let random = randomiser();
+            let marker = displayController.marker.call(random.cellHTML, random.row, random.cellIndex, player);
+            while (marker === false) {
+                random = randomiser();
+                marker = displayController.marker.call(random.cellHTML, random.row, random.cellIndex, player);
+            };
             checkEndGame(player);
         };
     };
@@ -132,6 +139,7 @@ const gameBoard = (() => {
                 };
             });
             restartGame();
+            return true;
         };
     };
     const restartGame = (() => {
