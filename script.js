@@ -89,12 +89,14 @@ const gameBoard = (() => {
     const gameboardHTML = document.querySelector('.gameboard');
     const containerHTML = document.querySelector('.gameboard-container');
     const render = (() => {
-        gameArr.forEach((row) => {
+        gameArr.forEach((row, i) => {
             const rowHTML = document.createElement('div');
             rowHTML.classList.add('row-game');
+            rowHTML.dataset.indexNumber = i;
             row.forEach((cell, i) => {
                 const cellHTML = document.createElement('div');
                 cellHTML.classList.add('cell-game');
+                cellHTML.dataset.indexNumber = i;
                 cellHTML.addEventListener('click', function() {
                     const player = playerList.getCurrentPlayer();
                     displayController.marker.call(cellHTML, row, i, player);
