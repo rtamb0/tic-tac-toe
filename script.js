@@ -102,12 +102,26 @@ const gameBoard = (() => {
                     displayController.marker.call(cellHTML, row, i, player);
                     playerList.switchPlayer();
                     checkEndGame(player);
+                    checkCPU();
                 });
                 rowHTML.appendChild(cellHTML);
             });
             gameboardHTML.appendChild(rowHTML);
         });
     });
+    const checkCPU = function() {
+        const player = playerList.getCurrentPlayer();
+        if (player.getName() === "CPU") {
+            const random = () => Math.floor(Math.random() * gameboardHTML.childElementCount + 1);
+            const rowHTML = gameboardHTML.querySelector(`.row-game:nth-child(${random()})`);
+            const row = gameArr[rowHTML.dataset.indexNumber];
+            const cellHTML = rowHTML.querySelector(`.cell-game:nth-child(${random()})`);
+            const cellIndex = cellHTML.dataset.indexNumber;
+            displayController.marker.call(cellHTML, row, cellIndex, player);
+            playerList.switchPlayer();
+            checkEndGame(player);
+        };
+    };
     const checkEndGame = function(player) {
         const rowHTMLs = document.querySelectorAll('.row-game');
         if (checkWinner(player) === true) {
