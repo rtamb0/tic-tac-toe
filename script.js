@@ -175,6 +175,9 @@ const player = (name, symbol) => {
 const playerList = (() => {
     const list = [];
     const prompt = {
+        playerChoice: document.querySelector('#player-choice'),
+        twoPlayerButton: document.querySelector('#player'),
+        cpuButton: document.querySelector('#cpu'),
         prompt: document.querySelector('#start-prompt'),
         promptHeader: document.querySelector('.dialog-header h2'),
         headerSymbol: document.querySelector('.dialog-header p'),
