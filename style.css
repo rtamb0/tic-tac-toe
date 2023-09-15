@@ -36,6 +36,28 @@ header h1 {
     text-align: center;
 }
 
+dialog:nth-child(1)[open] {
+    height: 25vh;
+    width: 25vw;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.player-buttons button {
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 0.5rem 2rem;
+    color: white;
+    background-color: rgb(43, 107, 226);
+}
+
+.player-buttons button:active {
+    background-color: rgba(43, 107, 226, 0.562);
+}
+
 .dialog-header img {
     position: relative;
     width: 2.5rem;
