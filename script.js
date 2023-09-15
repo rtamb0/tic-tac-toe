@@ -30,9 +30,11 @@ const displayController = (() => {
         switch (status) {
             case 'win':
                 messageDOM.message.innerHTML = `${name} is the winner!`;
+                messageDOM.message.classList.add('game-over');
                 break;
             case 'tie':
                 messageDOM.message.innerHTML = `It's a tie!`;
+                messageDOM.message.classList.add('game-over');
                 break;
             default:
                 messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
@@ -138,6 +140,7 @@ const gameBoard = (() => {
                     rowHTML.replaceChild(noEvent, cellHTML);
                 };
             });
+            gameboardHTML.classList.add('game-over');
             restartGame();
             return true;
         };
