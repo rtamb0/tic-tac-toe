@@ -184,7 +184,33 @@ const playerList = (() => {
         input: document.querySelector('dialog input'),
         submitButton: document.querySelector('#submit'),
     };
-    const inputPlayer = (function() {
+    const pickPlayer = (() => {
+        prompt.playerChoice.showModal();
+        prompt.twoPlayerButton.addEventListener('click', () => {
+            prompt.playerChoice.close();
+            inputPlayer();
+        });
+        prompt.cpuButton.addEventListener('click', () => {
+            prompt.playerChoice.close();
+            prompt.prompt.showModal();
+            prompt.promptHeader.innerHTML = "Enter Your Name";
+            const submit = () => {
+                prompt.input.reportValidity();
+                if (!prompt.input.checkValidity()) return;
+                list[0] = player(prompt.input.value, 'O');
+                list[1] = player('CPU', 'X');
+                randomisePlayer();
+                gameBoard.render();
+                gameBoard.checkCPU();
+                prompt.prompt.close();
+            };
+            prompt.submitButton.addEventListener('click', submit);
+            prompt.input.addEventListener('keypress', (event) => {
+                if (event.key === "Enter") submit();
+            });
+        });
+    })();
+    const inputPlayer = () => {
         let attempt = 0;
         prompt.prompt.showModal();
         const submit = () => {
@@ -194,7 +220,6 @@ const playerList = (() => {
                 list[1] = player(prompt.input.value, 'X');
                 randomisePlayer();
                 gameBoard.render();
-                gameBoard.checkCPU();
                 prompt.prompt.close();
             } else {
                 list[0] = player(prompt.input.value, 'O');
@@ -207,7 +232,7 @@ const playerList = (() => {
         prompt.input.addEventListener('keypress', (event) => {
             if (event.key === "Enter") submit();
         });
-    })();
+    };
     let currentPlayer;
     let randomisePlayer = () => {
         const chance = Math.floor(Math.random() * 2) + 1;
