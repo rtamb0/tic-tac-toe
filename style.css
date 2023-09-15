@@ -6,18 +6,18 @@
 }
 
 body {
-    background-color: whitesmoke;
+    background-color: var(--black-purple);
 }
 
 header {
     text-align: center;
-    background-color: rgb(43, 107, 226);
+    background-color: var(--dark-peach);
     padding: 2rem;
 }
 
 header h1 {
     margin: 0;
-    color: white;
+    color: var(--beige);
 }
 
 .gameboard-container {
@@ -49,6 +49,8 @@ dialog[open] {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    background-color: var(--dark-purple);
+    color: var(--beige);
 }
 
 dialog:nth-child(1)[open] {
@@ -69,15 +71,15 @@ dialog:nth-child(2)[open] {
 }
 
 button {
-    border: 2px solid black;
+    border: 2px solid var(--beige);
     border-radius: 8px;
     padding: 0.5rem 2rem;
-    color: white;
-    background-color: rgb(43, 107, 226);
+    color: var(--black-purple);
+    background-color:var(--dark-peach);
 }
 
 button:active {
-    background-color: rgba(43, 107, 226, 0.562);
+    background-color: rgba(167, 130, 149, 0.5);
 }
 
 .dialog-header img {
