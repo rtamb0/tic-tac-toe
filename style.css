@@ -1,3 +1,10 @@
+* {
+    --beige: rgb(239, 225, 209);
+    --dark-peach: rgb(167, 130, 149);
+    --dark-purple: rgb(63, 46, 62);
+    --black-purple: rgb(51, 29, 44);
+}
+
 body {
     background-color: whitesmoke;
 }
