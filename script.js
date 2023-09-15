@@ -145,7 +145,7 @@ const gameBoard = (() => {
     const restartGame = (() => {
         const restartButton = document.createElement('button');
         restartButton.innerHTML = "Restart";
-        containerHTML.appendChild(restartButton);
+        gameboardHTML.appendChild(restartButton);
         restartButton.addEventListener('click', () => {
             gameArr.forEach((row) => {
                 row.forEach((cell, i, arr) => arr[i] = '');

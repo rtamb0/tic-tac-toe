@@ -29,6 +29,7 @@ header h1 {
 
 .gameboard {
     border: 2px solid var(--dark-peach);
+    position: relative;
 }
 
 .row-game {
@@ -46,6 +47,13 @@ header h1 {
 .game-message {
     text-align: center;
     color: var(--beige);
+}
+
+.gameboard > button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 dialog[open] {
