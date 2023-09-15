@@ -80,11 +80,15 @@ button {
     border-radius: 8px;
     padding: 0.5rem 2rem;
     color: var(--black-purple);
-    background-color:var(--dark-peach);
+    background-color: var(--dark-peach);
+}
+
+button:hover {
+    background-color: rgb(216, 164, 191);
 }
 
 button:active {
-    background-color: rgba(167, 130, 149, 0.5);
+    background-color: var(--dark-peach);
 }
 
 .dialog-header img {
