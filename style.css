@@ -36,9 +36,7 @@ header h1 {
     text-align: center;
 }
 
-dialog:nth-child(2)[open] {
-    height: 25vh;
-    width: 25vw;
+dialog[open] {
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -46,7 +44,24 @@ dialog:nth-child(2)[open] {
     justify-content: space-evenly;
 }
 
-.player-buttons button {
+dialog:nth-child(1)[open] {
+    width: 500px;
+}
+
+.about {
+    text-align: center;
+}
+
+.about h2 {
+    text-decoration: underline;
+}
+
+dialog:nth-child(2)[open] {
+    height: 25vh;
+    width: 25vw;
+}
+
+button {
     border: 2px solid black;
     border-radius: 8px;
     padding: 0.5rem 2rem;
@@ -54,7 +69,7 @@ dialog:nth-child(2)[open] {
     background-color: rgb(43, 107, 226);
 }
 
-.player-buttons button:active {
+button:active {
     background-color: rgba(43, 107, 226, 0.562);
 }
 
