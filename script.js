@@ -175,6 +175,8 @@ const player = (name, symbol) => {
 const playerList = (() => {
     const list = [];
     const prompt = {
+        welcome: document.querySelector('#welcome'),
+        startButton: document.querySelector('#start'),
         playerChoice: document.querySelector('#player-choice'),
         twoPlayerButton: document.querySelector('#player'),
         cpuButton: document.querySelector('#cpu'),
@@ -184,6 +186,13 @@ const playerList = (() => {
         input: document.querySelector('dialog input'),
         submitButton: document.querySelector('#submit'),
     };
+    const welcomeModal = (() => {
+        prompt.welcome.showModal();
+        prompt.startButton.addEventListener('click', () => {
+            prompt.welcome.close();
+            pickPlayer();
+        })
+    })();
     const pickPlayer = (() => {
         prompt.playerChoice.showModal();
         prompt.twoPlayerButton.addEventListener('click', () => {
@@ -209,7 +218,7 @@ const playerList = (() => {
                 if (event.key === "Enter") submit();
             });
         });
-    })();
+    });
     const inputPlayer = () => {
         let attempt = 0;
         prompt.prompt.showModal();
