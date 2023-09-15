@@ -185,6 +185,7 @@ const playerList = (() => {
         submitButton: document.querySelector('#submit'),
     };
     const pickPlayer = (() => {
+        prompt.playerChoice.showModal();
         prompt.twoPlayerButton.addEventListener('click', () => {
             prompt.playerChoice.close();
             inputPlayer();
