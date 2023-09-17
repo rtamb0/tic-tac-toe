@@ -173,8 +173,7 @@ const gameBoard = (() => {
         containerHTML.appendChild(changeButton);
         changeButton.addEventListener('click', () => {
             removeBoard();
-            node.playerChoice.showModal();
-            node.twoPlayerButton.blur();
+            playerList.pickPlayer();
         });
     };
     return {getGameArr, render, checkCPU, changePlayer};
@@ -212,40 +211,37 @@ const playerList = (() => {
             pickPlayer();
         })
     })();
+    const inputListeners = (func) => {
+        prompt.submitButton.addEventListener('click', func);
+        prompt.input.addEventListener('keypress', (e) => {
+            if (e.key === "Enter") func(e);
+        });
+    };
+    const removeListeners = func => {
+        prompt.submitButton.removeEventListener('click', func);
+        prompt.input.removeEventListener('keypress', (e) => {
+            if (e.key === "Enter") func(e);
+        });
+    };
     const pickPlayer = (() => {
         prompt.playerChoice.showModal();
         prompt.twoPlayerButton.blur();
         prompt.twoPlayerButton.addEventListener('click', (e) => {
             e.stopImmediatePropagation();
             prompt.playerChoice.close();
-            inputPlayer();
+            inputPlayer2();
         });
         prompt.cpuButton.addEventListener('click', (e) => {
             e.stopImmediatePropagation();
             prompt.playerChoice.close();
-            prompt.prompt.showModal();
-            prompt.promptHeader.innerHTML = "Enter Your Name";
-            const submit = (e) => {
-                e.stopImmediatePropagation();
-                prompt.input.reportValidity();
-                if (!prompt.input.checkValidity()) return;
-                list[0] = player(prompt.input.value, 'O');
-                list[1] = player('CPU', 'X');
-                randomisePlayer();
-                gameBoard.render();
-                gameBoard.checkCPU();
-                prompt.prompt.close();
-            };
-            prompt.submitButton.addEventListener('click', submit);
-            prompt.input.addEventListener('keypress', (e) => {
-                e.stopImmediatePropagation();
-                if (e.key === "Enter") submit();
-            });
+            inputCPU();
         });
     });
-    const inputPlayer = () => {
+    const inputPlayer2 = () => {
         let attempt = 0;
         prompt.prompt.showModal();
+        prompt.promptHeader.innerHTML = "Enter Player 1's Name";
+        prompt.headerSymbol.innerHTML = "(You will be <img src='assets/circle.svg'>)";
         const submit = (e) => {
             e.stopImmediatePropagation();
             prompt.input.reportValidity();
@@ -255,18 +251,34 @@ const playerList = (() => {
                 randomisePlayer();
                 gameBoard.render();
                 prompt.prompt.close();
+                removeListeners(submit);
             } else {
                 list[0] = player(prompt.input.value, 'O');
-                prompt.input.value = "";
                 prompt.promptHeader.innerHTML = "Enter Player 2's Name";
                 prompt.headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
                 attempt++;
-            }};
-        prompt.submitButton.addEventListener('click', submit);
-        prompt.input.addEventListener('keypress', (e) => {
-            e.stopImmediatePropagation()
-            if (e.key === "Enter") submit();
-        });
+            };
+            prompt.input.value = "";
+        };
+        inputListeners(submit);
+    };
+    const inputCPU = () => {
+        prompt.prompt.showModal();
+        prompt.promptHeader.innerHTML = "Enter Your Name";
+        const submit = (e) => {
+            e.stopImmediatePropagation();
+            prompt.input.reportValidity();
+            if (!prompt.input.checkValidity()) return;
+            list[0] = player(prompt.input.value, 'O');
+            list[1] = player('CPU', 'X');
+            prompt.input.value = "";
+            randomisePlayer();
+            gameBoard.render();
+            gameBoard.checkCPU();
+            prompt.prompt.close();
+            removeListeners(submit);
+        };
+        inputListeners(submit);
     };
     let currentPlayer;
     let randomisePlayer = () => {
