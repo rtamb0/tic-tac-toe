@@ -146,17 +146,20 @@ const gameBoard = (() => {
             return true;
         };
     };
+    const removeBoard = () => {
+        gameArr.forEach((row) => {
+            row.forEach((cell, i, arr) => arr[i] = '');
+        });
+        while (gameboardHTML.firstChild) {
+            gameboardHTML.removeChild(gameboardHTML.lastChild);
+        };
+    };
     const restartGame = (() => {
         const restartButton = document.createElement('button');
         restartButton.innerHTML = "Restart";
         gameboardHTML.appendChild(restartButton);
         restartButton.addEventListener('click', () => {
-            gameArr.forEach((row) => {
-                row.forEach((cell, i, arr) => arr[i] = '');
-            });
-            while (gameboardHTML.firstChild) {
-                gameboardHTML.removeChild(gameboardHTML.lastChild);
-            };
+            removeBoard();
             displayController.message(playerList.getCurrentPlayer().getName());
             render();
             checkCPU();
@@ -164,7 +167,17 @@ const gameBoard = (() => {
             restartButton.remove();
         });
     });
-    return {getGameArr, render, checkCPU};
+    const changePlayer = (node) => {
+        const changeButton = document.createElement('button');
+        changeButton.innerHTML = "Change Player";
+        containerHTML.appendChild(changeButton);
+        changeButton.addEventListener('click', () => {
+            removeBoard();
+            node.playerChoice.showModal();
+            node.twoPlayerButton.blur();
+        });
+    };
+    return {getGameArr, render, checkCPU, changePlayer};
 })();
 
 // Factory function that creates the player
@@ -202,15 +215,18 @@ const playerList = (() => {
     const pickPlayer = (() => {
         prompt.playerChoice.showModal();
         prompt.twoPlayerButton.blur();
-        prompt.twoPlayerButton.addEventListener('click', () => {
+        prompt.twoPlayerButton.addEventListener('click', (e) => {
+            e.stopImmediatePropagation();
             prompt.playerChoice.close();
             inputPlayer();
         });
-        prompt.cpuButton.addEventListener('click', () => {
+        prompt.cpuButton.addEventListener('click', (e) => {
+            e.stopImmediatePropagation();
             prompt.playerChoice.close();
             prompt.prompt.showModal();
             prompt.promptHeader.innerHTML = "Enter Your Name";
-            const submit = () => {
+            const submit = (e) => {
+                e.stopImmediatePropagation();
                 prompt.input.reportValidity();
                 if (!prompt.input.checkValidity()) return;
                 list[0] = player(prompt.input.value, 'O');
@@ -221,15 +237,17 @@ const playerList = (() => {
                 prompt.prompt.close();
             };
             prompt.submitButton.addEventListener('click', submit);
-            prompt.input.addEventListener('keypress', (event) => {
-                if (event.key === "Enter") submit();
+            prompt.input.addEventListener('keypress', (e) => {
+                e.stopImmediatePropagation();
+                if (e.key === "Enter") submit();
             });
         });
     });
     const inputPlayer = () => {
         let attempt = 0;
         prompt.prompt.showModal();
-        const submit = () => {
+        const submit = (e) => {
+            e.stopImmediatePropagation();
             prompt.input.reportValidity();
             if (!prompt.input.checkValidity()) return;
             if (attempt === 1) {
@@ -245,8 +263,9 @@ const playerList = (() => {
                 attempt++;
             }};
         prompt.submitButton.addEventListener('click', submit);
-        prompt.input.addEventListener('keypress', (event) => {
-            if (event.key === "Enter") submit();
+        prompt.input.addEventListener('keypress', (e) => {
+            e.stopImmediatePropagation()
+            if (e.key === "Enter") submit();
         });
     };
     let currentPlayer;
@@ -276,5 +295,6 @@ const playerList = (() => {
             displayController.message(currentPlayer.getName());
         };
     };
-    return {turnPlayer, getCurrentPlayer};
+    gameBoard.changePlayer(prompt);
+    return {turnPlayer, getCurrentPlayer, pickPlayer};
 })();
