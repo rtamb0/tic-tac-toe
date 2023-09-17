@@ -32,6 +32,14 @@ header h1 {
     position: relative;
 }
 
+.gameboard.game-over::before {
+    content: "";
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+}
+
 .row-game {
     display: flex;
     justify-content: center;
@@ -47,6 +55,12 @@ header h1 {
 .game-message {
     text-align: center;
     color: var(--beige);
+}
+
+p.game-over {
+    position: relative;
+    top: 200px;
+    z-index: 1;
 }
 
 .gameboard > button {
