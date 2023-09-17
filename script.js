@@ -193,6 +193,7 @@ const playerList = (() => {
     };
     const welcomeModal = (() => {
         prompt.welcome.showModal();
+        prompt.startButton.blur();
         prompt.startButton.addEventListener('click', () => {
             prompt.welcome.close();
             pickPlayer();
@@ -200,6 +201,7 @@ const playerList = (() => {
     })();
     const pickPlayer = (() => {
         prompt.playerChoice.showModal();
+        prompt.twoPlayerButton.blur();
         prompt.twoPlayerButton.addEventListener('click', () => {
             prompt.playerChoice.close();
             inputPlayer();
