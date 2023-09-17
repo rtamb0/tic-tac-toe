@@ -84,7 +84,7 @@ dialog:nth-child(1)[open] {
     width: 500px;
 }
 
-.about {
+.about, .dialog-header {
     text-align: center;
 }
 
@@ -95,6 +95,13 @@ dialog:nth-child(1)[open] {
 dialog:nth-child(2)[open] {
     height: 25vh;
     width: 25vw;
+}
+
+.dialog-header img {
+    position: relative;
+    width: 2.5rem;
+    top: 12px;
+    right: 2px;
 }
 
 button {
@@ -113,9 +120,3 @@ button:active {
     background-color: var(--dark-peach);
 }
 
-.dialog-header img {
-    position: relative;
-    width: 2.5rem;
-    top: 12px;
-    right: 2px;
-}
