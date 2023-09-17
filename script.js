@@ -38,6 +38,7 @@ const displayController = (() => {
                 break;
             default:
                 messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
+                messageDOM.message.classList.remove('game-over');
         };
     };
     const errorMessage = () => messageDOM.errorMessage.innerHTML = "That spot is already taken. Please pick another spot.";
@@ -159,6 +160,7 @@ const gameBoard = (() => {
             displayController.message(playerList.getCurrentPlayer().getName());
             render();
             checkCPU();
+            gameboardHTML.classList.remove('game-over');
             restartButton.remove();
         });
     });
