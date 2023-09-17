@@ -120,11 +120,28 @@ button:active {
 }
 
 input {
-    border: 3px solid var(--dark-peach);
+    border: 2px solid var(--dark-peach);
     border-radius: 8px;
     background-color: var(--beige);
     color: var(--black-purple);
     padding: 0.2rem 0.4rem;
     width: 50%;
     margin-left: 5px;
+    outline: none;
+}
+
+input:valid {
+    border-color: green;
+}
+
+input:invalid {
+    border-color: rgb(168, 32, 32);
+}
+
+input:placeholder-shown {
+    border-color: var(--dark-peach);
+}
+
+input:focus {
+    border-color: var(--black-purple);
 }
