@@ -119,3 +119,12 @@ button:active {
     width: 100%;
 }
 
+input {
+    border: 3px solid var(--dark-peach);
+    border-radius: 8px;
+    background-color: var(--beige);
+    color: var(--black-purple);
+    padding: 0.2rem 0.4rem;
+    width: 50%;
+    margin-left: 5px;
+}
