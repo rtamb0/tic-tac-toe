@@ -14,7 +14,7 @@ const displayController = (() => {
                 this.innerHTML = '<img src="assets/cross.svg">';
                 arr[index] = 'X';
             };
-            playerList.switchPlayer();
+            playerList.turnPlayer();
         };
     };
     const messageDOM = {
@@ -264,7 +264,7 @@ const playerList = (() => {
         };
     };
     const getCurrentPlayer = () => currentPlayer;
-    const switchPlayer = function() {
+    const turnPlayer = function() {
         if (currentPlayer === list[0]) {
             currentPlayer = list[1];
         } else {
@@ -276,5 +276,5 @@ const playerList = (() => {
             displayController.message(currentPlayer.getName());
         };
     };
-    return {switchPlayer, getCurrentPlayer};
+    return {turnPlayer, getCurrentPlayer};
 })();
