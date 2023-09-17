@@ -36,6 +36,9 @@ const displayController = (() => {
                 messageDOM.message.innerHTML = `It's a tie!`;
                 messageDOM.message.classList.add('game-over');
                 break;
+            case 'change':
+                messageDOM.message.innerHTML = ``;
+                break;
             default:
                 messageDOM.message.innerHTML = `It's now ${name}'s turn!`;
                 messageDOM.message.classList.remove('game-over');
@@ -159,11 +162,11 @@ const gameBoard = (() => {
         restartButton.innerHTML = "Restart";
         gameboardHTML.appendChild(restartButton);
         restartButton.addEventListener('click', () => {
+            gameboardHTML.classList.remove('game-over');
             removeBoard();
             displayController.message(playerList.getCurrentPlayer().getName());
             render();
             checkCPU();
-            gameboardHTML.classList.remove('game-over');
             restartButton.remove();
         });
     });
@@ -172,7 +175,9 @@ const gameBoard = (() => {
         changeButton.innerHTML = "Change Player";
         containerHTML.appendChild(changeButton);
         changeButton.addEventListener('click', () => {
+            gameboardHTML.classList.remove('game-over');
             removeBoard();
+            displayController.message(undefined, 'change');
             playerList.pickPlayer();
         });
     };
