@@ -151,6 +151,10 @@ button:active {
     background-color: var(--dark-peach);
 }
 
+button:focus {
+    outline-color: var(--dark-peach);
+}
+
 .player-buttons {
     display: flex;
     justify-content: space-around;
