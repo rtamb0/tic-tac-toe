@@ -21,10 +21,17 @@ header h1 {
 }
 
 .gameboard-container {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.gameboard-container button {
+    margin-top: 20px;
+    align-self: flex-end;
 }
 
 .gameboard {
