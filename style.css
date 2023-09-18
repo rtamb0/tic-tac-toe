@@ -148,7 +148,7 @@ button:hover {
 }
 
 button:active {
-    background-color: var(--dark-peach);
+    background-color: rgb(139, 110, 125)
 }
 
 button:focus {
