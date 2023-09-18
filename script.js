@@ -221,14 +221,6 @@ const playerList = (() => {
             pickPlayer();
         })
     })();
-    const inputListeners = (func) => {
-        prompt.submitButton.addEventListener('click', func);
-        prompt.input.addEventListener('keypress', (e) => {
-            e.stopImmediatePropagation();
-            if (e.key === "Enter") prompt.submitButton.click();
-        });
-    };
-    const removeListeners = (func) => prompt.submitButton.removeEventListener('click', func);
     const pickPlayer = (() => {
         prompt.playerChoice.showModal();
         prompt.twoPlayerButton.blur();
@@ -257,7 +249,7 @@ const playerList = (() => {
                 randomisePlayer();
                 gameBoard.render();
                 prompt.prompt.close();
-                removeListeners(submit);
+                listeners.removeListeners(submit);
             } else {
                 list[0] = player(prompt.input.value, 'O');
                 prompt.promptText.innerHTML = "Enter Player 2's Name";
@@ -266,7 +258,7 @@ const playerList = (() => {
             };
             prompt.input.value = "";
         };
-        inputListeners(submit);
+        listeners.inputListeners(submit);
     };
     const inputCPU = () => {
         prompt.prompt.showModal();
@@ -283,9 +275,19 @@ const playerList = (() => {
             gameBoard.render();
             gameBoard.checkCPU();
             prompt.prompt.close();
-            removeListeners(submit);
+            listeners.removeListeners(submit);
         };
-        inputListeners(submit);
+        listeners.inputListeners(submit);
+    };
+    const listeners = {
+        inputListeners: (func) => {
+            prompt.submitButton.addEventListener('click', func);
+            prompt.input.addEventListener('keypress', (e) => {
+                e.stopImmediatePropagation();
+                if (e.key === "Enter") prompt.submitButton.click();
+            });
+        },
+        removeListeners: (func) => prompt.submitButton.removeEventListener('click', func),
     };
     let currentPlayer;
     let randomisePlayer = () => {
