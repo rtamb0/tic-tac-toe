@@ -224,15 +224,11 @@ const playerList = (() => {
     const inputListeners = (func) => {
         prompt.submitButton.addEventListener('click', func);
         prompt.input.addEventListener('keypress', (e) => {
-            if (e.key === "Enter") func(e);
+            e.stopImmediatePropagation();
+            if (e.key === "Enter") prompt.submitButton.click();
         });
     };
-    const removeListeners = func => {
-        prompt.submitButton.removeEventListener('click', func);
-        prompt.input.removeEventListener('keypress', (e) => {
-            if (e.key === "Enter") func(e);
-        });
-    };
+    const removeListeners = (func) => prompt.submitButton.removeEventListener('click', func);
     const pickPlayer = (() => {
         prompt.playerChoice.showModal();
         prompt.twoPlayerButton.blur();
