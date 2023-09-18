@@ -203,10 +203,15 @@ const playerList = (() => {
         twoPlayerButton: document.querySelector('#player'),
         cpuButton: document.querySelector('#cpu'),
         prompt: document.querySelector('#start-prompt'),
-        promptHeader: document.querySelector('.dialog-header h2'),
-        headerSymbol: document.querySelector('.dialog-header p'),
+        promptHeader: document.querySelector('.dialog-header'),
+        promptText: document.createElement('h2'),
+        headerSymbol: document.createElement('p'),
         input: document.querySelector('dialog input'),
         submitButton: document.querySelector('#submit'),
+    };
+    const appendPrompt = {
+        appendHeader: prompt.promptHeader.appendChild(prompt.promptText),
+        appendSymbol: prompt.promptHeader.appendChild(prompt.headerSymbol),
     };
     const welcomeModal = (() => {
         prompt.welcome.showModal();
@@ -245,7 +250,7 @@ const playerList = (() => {
     const inputPlayer2 = () => {
         let attempt = 0;
         prompt.prompt.showModal();
-        prompt.promptHeader.innerHTML = "Enter Player 1's Name";
+        prompt.promptText.innerHTML = "Enter Player 1's Name";
         prompt.headerSymbol.innerHTML = "(You will be <img src='assets/circle.svg'>)";
         const submit = (e) => {
             e.stopImmediatePropagation();
@@ -259,7 +264,7 @@ const playerList = (() => {
                 removeListeners(submit);
             } else {
                 list[0] = player(prompt.input.value, 'O');
-                prompt.promptHeader.innerHTML = "Enter Player 2's Name";
+                prompt.promptText.innerHTML = "Enter Player 2's Name";
                 prompt.headerSymbol.innerHTML = "(You will be <img src='assets/cross.svg'>)";
                 attempt++;
             };
@@ -269,7 +274,8 @@ const playerList = (() => {
     };
     const inputCPU = () => {
         prompt.prompt.showModal();
-        prompt.promptHeader.innerHTML = "Enter Your Name";
+        prompt.promptText.innerHTML = "Enter Your Name";
+        prompt.headerSymbol.innerHTML = "(You will be <img src='assets/circle.svg'>)";
         const submit = (e) => {
             e.stopImmediatePropagation();
             prompt.input.reportValidity();
