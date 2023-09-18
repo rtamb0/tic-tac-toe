@@ -7,12 +7,19 @@
 
 body {
     background-color: var(--black-purple);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-header {
+header, footer {
     text-align: center;
     background-color: var(--dark-peach);
     padding: 2rem;
+}
+
+footer {
+    margin-top: auto;
 }
 
 header h1 {
