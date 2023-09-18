@@ -21,6 +21,12 @@ header, footer {
     padding: 2rem;
 }
 
+header h1 {
+    margin: 0;
+    letter-spacing: 1.5px;
+    color: var(--beige);
+}
+
 footer {
     margin-top: auto;
 }
@@ -36,11 +42,6 @@ footer h4 a {
 footer h4 img {
     width: 2rem;
     margin-bottom: -8px;
-}
-
-header h1 {
-    margin: 0;
-    color: var(--beige);
 }
 
 .gameboard-container {
@@ -110,6 +111,10 @@ dialog[open] {
     background-color: var(--dark-purple);
     color: var(--beige);
     text-align: center;
+}
+
+dialog h1 {
+    letter-spacing: 1.5px;
 }
 
 .about h2 {
