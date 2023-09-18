@@ -137,18 +137,14 @@ input {
     outline: none;
 }
 
-input:valid {
-    border-color: green;
-}
-
 input:invalid {
     border-color: rgb(168, 32, 32);
 }
 
-input:placeholder-shown {
+input:focus {
     border-color: var(--dark-peach);
 }
 
-input:focus {
-    border-color: var(--black-purple);
+input:valid {
+    border-color: green;
 }
