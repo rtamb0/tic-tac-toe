@@ -23,7 +23,7 @@ header, footer {
 
 header h1 {
     margin: 0;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     color: var(--beige);
 }
 
@@ -117,7 +117,7 @@ dialog[open] {
 }
 
 dialog h1 {
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
 }
 
 .about h2 {
